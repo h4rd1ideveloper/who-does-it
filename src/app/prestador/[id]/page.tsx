@@ -162,8 +162,7 @@ export default function PerfilPrestador() {
             {prestador.foto_url && (<Image
                 src={prestador.foto_url}
                 alt={prestador.nome}
-                width={100}
-                height={100}
+                fill
                 quality={100}
                 className="object-cover opacity-30"
               />)}

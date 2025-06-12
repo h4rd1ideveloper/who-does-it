@@ -16,7 +16,7 @@ const Header = () => {
 
                     {/* Search Bar - Desktop */}
                     <div className="hidden md:flex flex-1 mx-10">
-                        <div className="relative w-full max-w-xl">
+                        <div className="relative w-full">
                             <input
                                 type="text"
                                 placeholder="O que você precisa? Ex.: eletricista, encanador..."
