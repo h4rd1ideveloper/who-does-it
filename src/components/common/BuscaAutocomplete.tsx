@@ -55,7 +55,7 @@ const BuscaAutocomplete: React.FC<BuscaAutocompleteProps> = ({
           value={query}
           onChange={handleChange}
           placeholder={placeholder}
-          className="w-full py-3 px-4 rounded-lg focus:outline-none border border-gray-300"
+          className="w-full py-3 px-4 rounded-lg focus:outline-none border border-gray-300 bg-background text-foreground"
           onBlur={() => {
             // Pequeno delay para permitir o clique na sugestão
             setTimeout(() => setShowSuggestions(false), 200);

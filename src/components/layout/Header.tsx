@@ -15,7 +15,7 @@ const Header = () => {
                     </Link>
 
                     {/* Search Bar - Desktop */}
-                    <div className="hidden md:flex flex-1 mx-10">
+                  {/*  <div className="hidden md:flex flex-1 mx-10">
                         <div className="relative w-full">
                             <input
                                 type="text"
@@ -26,7 +26,7 @@ const Header = () => {
                                 <FaSearch/>
                             </button>
                         </div>
-                    </div>
+                    </div>*/}
 
                     {/* Navigation - Desktop */}
                     <nav className="hidden md:flex items-center space-x-6">
