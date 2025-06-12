@@ -74,6 +74,7 @@ export default function CadastroPrestador() {
         setLoading(false);
       }, 1000);
     } catch (err) {
+      console.log(err);
       setError('Erro ao validar token. Tente novamente.');
       setLoading(false);
       console.error(err);
@@ -87,15 +88,13 @@ export default function CadastroPrestador() {
     });
   };
 
-  const handleServicoChange: (index: number) => React.ChangeEventHandler<HTMLSelectElement> = (index) => (e) => {
-    const { name, value, selectedIndex, options } = e.currentTarget;
-
-    const selectedText = options[selectedIndex].text;
+  const handleServicoChange: (index: number) => React.ChangeEventHandler<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement> = (index) => (e) => {
+    const { name, value } = e.currentTarget;
 
     const updatedServicos = [...formData.servicos];
 
     updatedServicos[index] = {
-      ...updatedServicos[index], [name]: value, [`${name}Text`]: selectedText, // Se quiser armazenar o text
+      ...updatedServicos[index], [name]: value,
     };
 
     setFormData({
@@ -212,6 +211,7 @@ export default function CadastroPrestador() {
         }, 3000);
       }, 1500);
     } catch (err) {
+      console.log(err);
       setError('Erro ao realizar cadastro. Tente novamente.');
       setLoading(false);
       console.error(err);

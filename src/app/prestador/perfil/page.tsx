@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { FaUser, FaEnvelope, FaPhone, FaMapMarkerAlt, FaIdCard, FaCamera, FaClock } from 'react-icons/fa';
 import Link from 'next/link';
-import api from '@/services/api';
-
+import Image from 'next/image';
 export default function EditarPerfil() {
   const [formData, setFormData] = useState({
     nome: 'João Silva',
@@ -37,15 +37,16 @@ export default function EditarPerfil() {
     //   });
   }, []);
   
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange: React.ChangeEventHandler<HTMLSelectElement|HTMLInputElement|HTMLTextAreaElement> = (e) => {
+    const { name, value, type } = e.target;
+
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ?  (e as ChangeEvent<HTMLInputElement>).target.checked : value,
     });
   };
   
-  const handleSubmit = async (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -66,6 +67,7 @@ export default function EditarPerfil() {
         }, 3000);
       }, 1500);
     } catch (err) {
+      console.log(err);
       setError('Erro ao atualizar perfil. Tente novamente.');
       setLoading(false);
     }
@@ -81,7 +83,7 @@ export default function EditarPerfil() {
           <div className="w-full md:w-64 bg-white rounded-lg shadow-md p-4 h-fit">
             <div className="text-center mb-6">
               <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-3">
-                <img 
+                <Image 
                   src={formData.foto_url} 
                   alt={formData.nome}
                   className="w-full h-full object-cover"
@@ -345,7 +347,7 @@ export default function EditarPerfil() {
                   
                   <div className="flex items-center mb-4">
                     <div className="w-24 h-24 rounded-full overflow-hidden mr-4">
-                      <img 
+                      <Image 
                         src={formData.foto_url} 
                         alt={formData.nome}
                         className="w-full h-full object-cover"

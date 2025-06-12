@@ -1,9 +1,9 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { FaEdit, FaTrash, FaPlus, FaSave, FaArrowLeft } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import Link from 'next/link';
-import api from '@/services/api';
 
 export default function GerenciarServicos() {
   const [servicos, setServicos] = useState([
@@ -32,17 +32,9 @@ export default function GerenciarServicos() {
   ]);
   
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error,] = useState('');
   const [success, setSuccess] = useState('');
-  
-  // Lista simulada de categorias
-  const categorias = [
-    { id: 1, nome: 'Eletricista' },
-    { id: 2, nome: 'Encanador' },
-    { id: 3, nome: 'Pintor' },
-    { id: 4, nome: 'Pedreiro' },
-    { id: 5, nome: 'Diarista' },
-  ];
+
   
   // Simular chamada à API para buscar serviços
   useEffect(() => {
@@ -55,7 +47,7 @@ export default function GerenciarServicos() {
     //   });
   }, []);
   
-  const handleExcluirServico = (id) => {
+  const handleExcluirServico = (id:number) => {
     if (window.confirm('Tem certeza que deseja excluir este serviço?')) {
       setLoading(true);
       

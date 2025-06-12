@@ -2,7 +2,7 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface GraficoMetricasProps {
-  data: Array<any>;
+  data: Array<{ [key:string]:number|string }>;
   dataKey: string;
   xAxisDataKey: string;
   title: string;

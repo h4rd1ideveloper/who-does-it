@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+'use client';
+import React, { useState } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { FaArrowLeft, FaSave } from 'react-icons/fa';
 import Link from 'next/link';
-import api from '@/services/api';
 
 export default function NovoServico() {
   const [formData, setFormData] = useState({
@@ -14,68 +14,65 @@ export default function NovoServico() {
     preco_max: '',
     tempo_estimado: '',
     local_atendimento: 'domicilio',
-    fotos_urls: []
+    fotos_urls: [],
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  
+
   // Lista simulada de categorias
-  const categorias = [
-    { id: 1, nome: 'Eletricista' },
-    { id: 2, nome: 'Encanador' },
-    { id: 3, nome: 'Pintor' },
-    { id: 4, nome: 'Pedreiro' },
-    { id: 5, nome: 'Diarista' },
-  ];
-  
-  const handleChange = (e) => {
+  const categorias = [{ id: 1, nome: 'Eletricista' }, { id: 2, nome: 'Encanador' }, { id: 3, nome: 'Pintor' }, {
+    id: 4,
+    nome: 'Pedreiro',
+  }, { id: 5, nome: 'Diarista' }];
+
+  const handleChange: React.ChangeEventHandler<HTMLSelectElement|HTMLInputElement|HTMLTextAreaElement> = (e) => {
     const { name, value, type } = e.target;
     setFormData({
-      ...formData,
-      [name]: type === 'number' ? parseFloat(value) : value,
+      ...formData, [name]: type === 'number' ? parseFloat(value) : value,
     });
   };
-  
-  const handleSubmit = async (e) => {
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement>  = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
+
     try {
       // Validar campos obrigatórios
       if (!formData.categoria_id || !formData.titulo || !formData.preco_min) {
-        throw new Error('Preencha todos os campos obrigatórios');
+        console.error('Preencha todos os campos obrigatórios');
+        return false;
       }
-      
+
       // Simulando chamada à API
       // Em um ambiente real, faríamos:
       // const response = await api.post('/servicos', {
       //   ...formData,
       //   prestador_id: 1, // ID do prestador logado
       // });
-      
+
       // Simulando resposta
       setTimeout(() => {
         setSuccess(true);
         setLoading(false);
-        
+
         // Redirecionar após cadastro
         setTimeout(() => {
           window.location.href = '/prestador/servicos';
         }, 2000);
       }, 1500);
     } catch (err) {
-      setError(err.message || 'Erro ao cadastrar serviço. Tente novamente.');
+      console.log(err);
+      setError('Erro ao cadastrar serviço. Tente novamente.');
       setLoading(false);
     }
   };
 
-  return (
-    <main>
+  return (<main>
       <Header />
-      
+
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-6">
           {/* Sidebar */}
@@ -83,11 +80,11 @@ export default function NovoServico() {
             <div className="text-center mb-6">
               <h2 className="text-xl font-bold">Painel do Prestador</h2>
             </div>
-            
+
             <nav>
               <ul className="space-y-2">
                 <li>
-                  <Link 
+                  <Link
                     href="/prestador/dashboard"
                     className="block py-2 px-4 rounded hover:bg-gray-100 text-gray-700"
                   >
@@ -95,7 +92,7 @@ export default function NovoServico() {
                   </Link>
                 </li>
                 <li>
-                  <Link 
+                  <Link
                     href="/prestador/servicos"
                     className="block py-2 px-4 rounded bg-blue-100 text-blue-800 font-medium"
                   >
@@ -103,7 +100,7 @@ export default function NovoServico() {
                   </Link>
                 </li>
                 <li>
-                  <Link 
+                  <Link
                     href="/prestador/perfil"
                     className="block py-2 px-4 rounded hover:bg-gray-100 text-gray-700"
                   >
@@ -111,7 +108,7 @@ export default function NovoServico() {
                   </Link>
                 </li>
                 <li>
-                  <button 
+                  <button
                     onClick={() => {
                       // Limpar token e redirecionar para login
                       if (typeof window !== 'undefined') {
@@ -127,11 +124,11 @@ export default function NovoServico() {
               </ul>
             </nav>
           </div>
-          
+
           {/* Conteúdo Principal */}
           <div className="flex-1">
             <div className="flex items-center mb-6">
-              <Link 
+              <Link
                 href="/prestador/servicos"
                 className="mr-4 text-blue-600 hover:text-blue-800"
               >
@@ -139,20 +136,15 @@ export default function NovoServico() {
               </Link>
               <h1 className="text-2xl font-bold">Novo Serviço</h1>
             </div>
-            
-            {success ? (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+
+            {success ? (<div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                 <h3 className="font-bold text-xl mb-2">Serviço cadastrado com sucesso!</h3>
                 <p>Você será redirecionado para a lista de serviços em instantes.</p>
-              </div>
-            ) : (
-              <div className="bg-white rounded-lg shadow-md p-6">
-                {error && (
-                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              </div>) : (<div className="bg-white rounded-lg shadow-md p-6">
+                {error && (<div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                     <p>{error}</p>
-                  </div>
-                )}
-                
+                  </div>)}
+
                 <form onSubmit={handleSubmit}>
                   <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="categoria_id">
@@ -167,14 +159,12 @@ export default function NovoServico() {
                       required
                     >
                       <option value="">Selecione uma categoria</option>
-                      {categorias.map(categoria => (
-                        <option key={categoria.id} value={categoria.id}>
+                      {categorias.map(categoria => (<option key={categoria.id} value={categoria.id}>
                           {categoria.nome}
-                        </option>
-                      ))}
+                        </option>))}
                     </select>
                   </div>
-                  
+
                   <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="titulo">
                       Título do Serviço *
@@ -190,7 +180,7 @@ export default function NovoServico() {
                       required
                     />
                   </div>
-                  
+
                   <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="descricao">
                       Descrição
@@ -205,7 +195,7 @@ export default function NovoServico() {
                       rows={4}
                     />
                   </div>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="preco_min">
@@ -241,7 +231,7 @@ export default function NovoServico() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div>
                       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tempo_estimado">
@@ -274,7 +264,7 @@ export default function NovoServico() {
                       </select>
                     </div>
                   </div>
-                  
+
                   <div className="mb-6">
                     <label className="block text-gray-700 text-sm font-bold mb-2">
                       Fotos do Serviço
@@ -290,7 +280,7 @@ export default function NovoServico() {
                       <p className="text-gray-500 mt-2 text-sm">Máximo de 5 imagens (JPG, PNG)</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex justify-end">
                     <button
                       type="submit"
@@ -301,13 +291,11 @@ export default function NovoServico() {
                     </button>
                   </div>
                 </form>
-              </div>
-            )}
+              </div>)}
           </div>
         </div>
       </div>
-      
+
       <Footer />
-    </main>
-  );
+    </main>);
 }

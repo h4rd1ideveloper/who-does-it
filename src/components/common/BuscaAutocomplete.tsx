@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import { FaSearch } from 'react-icons/fa';
 
@@ -33,11 +34,11 @@ const BuscaAutocomplete: React.FC<BuscaAutocompleteProps> = ({
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
     if (query.trim()) {
       onSearch(query);
       setShowSuggestions(false);
     }
+    e.preventDefault();
   };
 
   const handleSuggestionClick = (suggestion: { id: number; nome: string; slug: string }) => {
@@ -67,7 +68,7 @@ const BuscaAutocomplete: React.FC<BuscaAutocompleteProps> = ({
         />
         <button 
           type="submit" 
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
+          className="absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-800"
         >
           <FaSearch size={18} />
         </button>

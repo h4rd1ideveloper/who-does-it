@@ -1,19 +1,30 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { FaArrowLeft, FaSave } from 'react-icons/fa';
 import Link from 'next/link';
-import api from '@/services/api';
-
-export default function EditarServico({ params }) {
+import { AppProps } from 'next/app'
+import Image from 'next/image';
+type Payload = {
+  categoria_id: number,
+  titulo: string,
+  descricao: string,
+  preco_min: number,
+  preco_max?: number,
+  tempo_estimado: string,
+  local_atendimento: string,
+  fotos_urls: string[]
+}
+export default function EditarServico({ params }: AppProps['pageProps']) {
   const { id } = params;
   
-  const [formData, setFormData] = useState({
-    categoria_id: '',
+  const [formData, setFormData] = useState<Payload>({
+    categoria_id: 0,
     titulo: '',
     descricao: '',
-    preco_min: '',
-    preco_max: '',
+    preco_min: 0,
+    preco_max: 0,
     tempo_estimado: '',
     local_atendimento: 'domicilio',
     fotos_urls: []
@@ -79,7 +90,7 @@ export default function EditarServico({ params }) {
     }, 1000);
   }, [id]);
   
-  const handleChange = (e) => {
+  const handleChange: React.ChangeEventHandler<HTMLSelectElement|HTMLInputElement|HTMLTextAreaElement> = (e) => {
     const { name, value, type } = e.target;
     setFormData({
       ...formData,
@@ -87,7 +98,7 @@ export default function EditarServico({ params }) {
     });
   };
   
-  const handleSubmit = async (e) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     setSaving(true);
     setError('');
@@ -95,7 +106,8 @@ export default function EditarServico({ params }) {
     try {
       // Validar campos obrigatórios
       if (!formData.categoria_id || !formData.titulo || !formData.preco_min) {
-        throw new Error('Preencha todos os campos obrigatórios');
+        console.error('Preencha todos os campos obrigatórios');
+        return false
       }
       
       // Simulando chamada à API
@@ -113,7 +125,8 @@ export default function EditarServico({ params }) {
         }, 2000);
       }, 1500);
     } catch (err) {
-      setError(err.message || 'Erro ao atualizar serviço. Tente novamente.');
+      console.log(err);
+      setError('Erro ao atualizar serviço. Tente novamente.');
       setSaving(false);
     }
   };
@@ -336,7 +349,7 @@ export default function EditarServico({ params }) {
                         <div className="flex flex-wrap gap-2">
                           {formData.fotos_urls.map((foto, index) => (
                             <div key={index} className="w-24 h-24 relative">
-                              <img
+                              <Image
                                 src={foto}
                                 alt={`Foto ${index + 1}`}
                                 className="w-full h-full object-cover rounded"
