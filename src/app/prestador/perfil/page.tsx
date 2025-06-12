@@ -87,6 +87,9 @@ export default function EditarPerfil() {
                   src={formData.foto_url} 
                   alt={formData.nome}
                   className="w-full h-full object-cover"
+                  width={100}
+                  height={100}
+                  quality={100}
                 />
               </div>
               <h2 className="text-xl font-bold">{formData.nome}</h2>
@@ -351,6 +354,9 @@ export default function EditarPerfil() {
                         src={formData.foto_url} 
                         alt={formData.nome}
                         className="w-full h-full object-cover"
+                        width={100}
+                        height={100}
+                        quality={100}
                       />
                     </div>
                     

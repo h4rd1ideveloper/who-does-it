@@ -5,7 +5,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import CardPrestador from '@/components/common/CardPrestador';
 import BuscaAutocomplete from '@/components/common/BuscaAutocomplete';
-import { FaFilter, FaStar } from 'react-icons/fa';
+import { FaFilter, FaList, FaStar, FaThLarge } from 'react-icons/fa';
 
 type Pestador = {
   id: number,
@@ -23,7 +23,7 @@ export default function Resultados() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [prestadores, setPrestadores] = useState<Pestador[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const [viewType, setViewType] = useState<'grid' | 'list'>('grid')
   // Parâmetros de busca
   const query = searchParams.get('query') || '';
   const categoria = searchParams.get('categoria') || '';
@@ -71,7 +71,17 @@ export default function Resultados() {
         preco_min: 180,
         slogan: 'Encanador - atendimento rápido e eficiente',
         local_atendimento: 'domicilio',
-      }];
+      },
+        {
+          id: 4,
+          nome: 'Carlos Pereira',
+          foto_url: 'https://randomuser.me/api/portraits/men/2.jpg',
+          nota_media: 4.2,
+          total_avaliacoes: 12,
+          preco_min: 180,
+          slogan: 'Encanador - atendimento rápido e eficiente',
+          local_atendimento: 'domicilio',
+        }];
       setPrestadores(prestadoresSimulados);
       setLoading(false);
     }, 1000);
@@ -115,13 +125,24 @@ export default function Resultados() {
         />
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6">
+      <div className="flex flex-col md:flex-row gap-6 text-gray-800">
         {/* Filtros - Desktop */}
         <div className="hidden md:block w-64 bg-white rounded-lg shadow-md p-4 h-fit">
-          <h2 className="font-bold text-lg mb-4 flex items-center">
-            <FaFilter className="mr-2" /> Filtros
-          </h2>
-
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-bold text-lg flex items-center">
+              <FaFilter className="mr-2" /> Filtros
+            </h2>
+            {/* Botão de alternar view */}
+            <button
+              onClick={() =>
+                setViewType(viewType === 'grid' ? 'list' : 'grid')
+              }
+              className="p-2 rounded hover:bg-gray-100 transition"
+              title={`Ver como ${viewType === 'grid' ? 'lista' : 'grade'}`}
+            >
+              {viewType === 'grid' ? <FaList /> : <FaThLarge />}
+            </button>
+          </div>
           <div className="space-y-6">
             <div>
               <h3 className="font-medium mb-2">Faixa de Preço</h3>
@@ -337,12 +358,21 @@ export default function Resultados() {
         <div className="flex-1">
           {loading ? (<div className="flex justify-center items-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          </div>) : prestadores.length > 0 ? (<div className="space-y-6">
-            {prestadores.map(prestador => (<CardPrestador
-              key={prestador.id}
-              {...prestador}
-            />))}
-          </div>) : (<div className="bg-white rounded-lg shadow-md p-8 text-center">
+          </div>) : prestadores.length > 0 ? (
+            viewType === 'grid' ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  gap-6">
+                {prestadores.map((p) => (
+                  <CardPrestador key={p.id} {...p} />
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {prestadores.map((p) => (
+                  <CardPrestador key={p.id} {...p} />
+                ))}
+              </div>
+            )
+          ) : (<div className="bg-white rounded-lg shadow-md p-8 text-center">
             <h3 className="text-xl font-semibold mb-2">Nenhum prestador encontrado</h3>
             <p className="text-gray-600 mb-4">
               Tente ajustar seus filtros ou fazer uma nova busca.

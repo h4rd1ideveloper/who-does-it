@@ -20,7 +20,7 @@ const Header = () => {
                             <input
                                 type="text"
                                 placeholder="O que você precisa? Ex.: eletricista, encanador..."
-                                className="w-full py-2 px-4 rounded-lg text-gray-800 focus:outline-none"
+                                className="w-full py-2 px-4 rounded-lg focus:outline-none"
                             />
                             <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600">
                                 <FaSearch/>
@@ -56,7 +56,7 @@ const Header = () => {
                         <input
                             type="text"
                             placeholder="O que você precisa?"
-                            className="w-full py-2 px-4 rounded-lg text-gray-800 focus:outline-none"
+                            className="w-full py-2 px-4 rounded-lg focus:outline-none"
                         />
                         <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600">
                             <FaSearch/>

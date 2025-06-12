@@ -135,6 +135,9 @@ export default function Dashboard() {
                 src={prestador.foto_url}
                 alt={prestador.nome}
                 className="w-full h-full object-cover"
+                width={100}
+                height={100}
+                quality={100}
               />
             </div>
             <h2 className="text-xl font-bold">{prestador.nome}</h2>
